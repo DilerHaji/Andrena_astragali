@@ -1,0 +1,28 @@
+# BUSCO version is: 5.2.2 
+# The lineage dataset is: hymenoptera_odb10 (Creation date: 2020-08-05, number of genomes: 40, number of BUSCOs: 5991)
+# Summarized benchmarking in BUSCO notation for file /global/scratch/users/diler/nav/chat_bee_assembly/CHATSEQ_dnaseq/masurca/CA/final.genome.scf.fasta
+# BUSCO was run in mode: genome
+# Gene predictor used: metaeuk
+
+	***** Results: *****
+
+	C:91.0%[S:90.4%,D:0.6%],F:4.3%,M:4.7%,n:5991	   
+	5449	Complete BUSCOs (C)			   
+	5415	Complete and single-copy BUSCOs (S)	   
+	34	Complete and duplicated BUSCOs (D)	   
+	257	Fragmented BUSCOs (F)			   
+	285	Missing BUSCOs (M)			   
+	5991	Total BUSCO groups searched		   
+
+Dependencies and versions:
+	hmmsearch: 3.1
+	metaeuk: 5.34c21f2
+	sepp: 4.4.0
+
+Placement file versions:
+	list_of_reference_markers.eukaryota_odb10.2019-12-16.txt
+	tree.eukaryota_odb10.2019-12-16.nwk
+	tree_metadata.eukaryota_odb10.2019-12-16.txt
+	supermatrix.aln.eukaryota_odb10.2019-12-16.faa
+	mapping_taxids-busco_dataset_name.eukaryota_odb10.2019-12-16.txt
+	mapping_taxid-lineage.eukaryota_odb10.2019-12-16.txt

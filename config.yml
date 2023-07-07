@@ -1,0 +1,158 @@
+sample:
+  CHATSEQ: "CHATSEQ"
+
+path_to_data: "/global/scratch/users/diler/data/chat_bee/"
+
+############################################################################################################################################################################################################
+
+genome:
+  minimap:
+    threads: 20
+  samtools:
+    threads: 20  
+  pilon:
+    threads: 20
+  quickmerge:
+    nucmer:
+      l: 100
+    delta-filter:
+      l: 10000
+    quickmerge:
+      hco: 6.0
+      c: 2
+      l: 6000000
+      ml: 10000
+
+#############################################################################################################################################################################################################
+
+DNAont:
+  nanopore_basecalling_model: "dna_r9.4.1_e8_hac@v3.3"
+  minimap:
+    threads: 20
+  racon:
+    threads: 20
+    match: 5
+    mismatch: -6
+    gap: -8
+    window_length: 500
+    extra: ""
+  medaka:
+    threads: 20
+    model: "r941_min_hac_g507"
+  samtools:
+    threads: 20
+
+#############################################################################################################################################################################################################
+
+RNAont:
+  trimmomatic:
+    threads: 20
+    trim_params: "ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:5 TRAILING:5 SLIDINGWINDOW:4:5 MINLEN:25"
+
+#############################################################################################################################################################################################################
+
+RNAseq:
+  trimmomatic:
+    threads: 20
+    trim_params: "ILLUMINACLIP:TruSeq3-PE.fa:2:30:10LEADING:3TRAILING:3SLIDINGWINDOW:4:15MINLEN:36"
+  trinity:
+        memory1: "200G"
+        memory2: 10
+        threads: 24
+        trinity_params: "--seqType fq"
+        strand: ""
+
+#############################################################################################################################################################################################################
+
+DNAseq:
+
+#############################################################################################################################################################################################################
+
+ncbi_genomes:
+  GCA_947577245.1: "GCA_947577245.1" #Andrenabucephala
+  GCA_929108735.1: "GCA_929108735.1" #Andrenadorsata
+  GCA_946251845.1: "GCA_946251845.1" #Andrenafulva
+  GCA_910592295.1: "GCA_910592295.1" #Andrenahaemorrhoa
+  GCA_944738655.2: "GCA_944738655.2" #Andrenahattorfiana
+  GCA_929113495.1: "GCA_929113495.1" #Andrenaminutula	
+
+
+#############################################################################################################################################################################################################
+
+scripts:
+  genomescope_r_script: "/global/scratch/users/diler/scripts/genomescope.R"
+  minionqc: "/global/scratch/users/diler/scripts/MinIONQC.R"
+  get_genome_size: "/global/scratch/users/diler/scripts/get_genome_size.py"
+
+programs:
+  dorado: "/global/scratch/users/diler/software/dorado-0.1.1+eb48766-Linux/bin/dorado"
+  jasper: "/global/scratch/users/diler/software/jasper-1.0.2/bin/jasper.sh"
+
+configs:
+  masurca: "/global/scratch/users/diler/configs/masurca.txt"
+
+environments:
+  jellyfish: "/global/scratch/users/diler/environments/jellyfish.yml"
+  dorado: "/global/scratch/users/diler/environments/dorado.yml"
+  samtools: "/global/scratch/users/diler/environments/samtools.yml"
+  r-base: "/global/scratch/users/diler/environments/r-base.yml"
+  fastqc: "/global/scratch/users/diler/environments/fastqc.yml"
+  flye: "/global/scratch/users/diler/environments/flye.yml"
+  quast: "/global/scratch/users/diler/environments/quast.yml"
+  busco: "/global/scratch/users/diler/environments/busco.yml"
+  ncbi_datasets: "/global/scratch/users/diler/environments/ncbi_datasets.yml"
+  masurca: "/global/scratch/users/diler/environments/masurca.yml"
+  minimap: "/global/scratch/users/diler/environments/minimap.yml"
+  bbmap: "/global/scratch/users/diler/environments/bbmap.yml"
+  racon: "/global/scratch/users/diler/environments/racon.yml"
+  medaka: "/global/scratch/users/diler/environments/medaka_latest.sif"
+  bwa: "/global/scratch/users/diler/environments/bwa.yml"
+  pilon: "/global/scratch/users/diler/environments/pilon.yml"
+  polypolish: "/global/scratch/users/diler/environments/polypolish.yml"
+  quickmerge: "/global/scratch/users/diler/environments/quickmerge.yml"
+
+#############################################################################################################################################################################################################
+
+default_resources:
+  "--account=co_rosalind\
+  --time=72:00:00\
+  --ntasks-per-node=1\
+  --job-name=chat\
+  --partition=savio2\
+  --nodes=1\
+  --cpus-per-task=12\
+  --qos=savio_lowprio\
+  --mail-type=END,FAIL\
+  --mail-user=diler@berkeley.edu"
+
+gpu_resources:
+  "--account=fc_flyminer\
+  --time=72:00:00\
+  --ntasks-per-node=2\
+  --job-name=gpu\
+  --partition=savio3_gpu\
+  --nodes=1\
+  --cpus-per-task=4\
+  --qos=savio_lowprio\
+  --mail-type=END,FAIL\
+  --mail-user=diler@berkeley.edu\
+  --gres=gpu:2"
+
+highmem_resources:
+  "--account=fc_flyminer\
+  --time=72:00:00\
+  --ntasks-per-node=1\
+  --job-name=himem\
+  --partition=savio3_bigmem\
+  --nodes=1\
+  --cpus-per-task=32\
+  --qos=savio_normal\
+  --mail-type=END,FAIL\
+  --mail-user=diler@berkeley.edu"
+
+#############################################################################################################################################################################################################
+
+#Can'tgetthistowork
+#jasper:
+#jellyfish_binding_path:"/global/home/users/diler/lib/python3.11/site-packages"
+

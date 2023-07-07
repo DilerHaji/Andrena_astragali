@@ -1,0 +1,19 @@
+# BUSCO version is: 5.2.2 
+# The lineage dataset is: eukaryota_odb10 (Creation date: 2020-09-10, number of genomes: 70, number of BUSCOs: 255)
+# Summarized benchmarking in BUSCO notation for file /global/scratch/users/diler/nav/chat_bee_assembly/polish/CHATSEQ_pilon.fasta
+# BUSCO was run in mode: genome
+# Gene predictor used: metaeuk
+
+	***** Results: *****
+
+	C:98.8%[S:96.1%,D:2.7%],F:1.2%,M:0.0%,n:255	   
+	252	Complete BUSCOs (C)			   
+	245	Complete and single-copy BUSCOs (S)	   
+	7	Complete and duplicated BUSCOs (D)	   
+	3	Fragmented BUSCOs (F)			   
+	0	Missing BUSCOs (M)			   
+	255	Total BUSCO groups searched		   
+
+Dependencies and versions:
+	hmmsearch: 3.1
+	metaeuk: 5.34c21f2
