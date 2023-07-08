@@ -15,6 +15,7 @@ genome:
   quickmerge:
     nucmer:
       l: 100
+      threads: 20
     delta-filter:
       l: 10000
     quickmerge:
@@ -52,8 +53,10 @@ RNAont:
 #############################################################################################################################################################################################################
 
 RNAseq:
+  rcorrector: 
+    threads: 10
   trimmomatic:
-    threads: 20
+    threads: 1
     trim_params: "ILLUMINACLIP:TruSeq3-PE.fa:2:30:10LEADING:3TRAILING:3SLIDINGWINDOW:4:15MINLEN:36"
   trinity:
         memory1: "200G"
@@ -83,10 +86,12 @@ scripts:
   genomescope_r_script: "/global/scratch/users/diler/scripts/genomescope.R"
   minionqc: "/global/scratch/users/diler/scripts/MinIONQC.R"
   get_genome_size: "/global/scratch/users/diler/scripts/get_genome_size.py"
+  FilterUncorrectabledPEfastq: "/global/scratch/users/diler/scripts/FilterUncorrectabledPEfastq.py"
 
 programs:
   dorado: "/global/scratch/users/diler/software/dorado-0.1.1+eb48766-Linux/bin/dorado"
   jasper: "/global/scratch/users/diler/software/jasper-1.0.2/bin/jasper.sh"
+  rcorrector: "/global/scratch/users/diler/software/rcorrector/run_rcorrector.pl"
 
 configs:
   masurca: "/global/scratch/users/diler/configs/masurca.txt"
@@ -110,44 +115,71 @@ environments:
   pilon: "/global/scratch/users/diler/environments/pilon.yml"
   polypolish: "/global/scratch/users/diler/environments/polypolish.yml"
   quickmerge: "/global/scratch/users/diler/environments/quickmerge.yml"
+  rcorrector: "/global/scratch/users/diler/environments/rcorrector.yml"
+  python2.7.8: "/global/scratch/users/diler/environments/python2.7.8.yml"
+  trim_galore: "/global/scratch/users/diler/environments/trim_galore.yml"
 
 #############################################################################################################################################################################################################
 
 default_resources:
-  "--account=co_rosalind\
-  --time=72:00:00\
-  --ntasks-per-node=1\
-  --job-name=chat\
-  --partition=savio2\
-  --nodes=1\
-  --cpus-per-task=12\
-  --qos=savio_lowprio\
-  --mail-type=END,FAIL\
+  "--account=fc_flyminer \
+  --time=72:00:00 \
+  --ntasks-per-node=1 \
+  --job-name=cha \
+  --partition=savio3_htc \
+  --nodes=1 \
+  --cpus-per-task=1 \
+  --qos=savio_normal \
+  --mail-type=END,FAIL \
+  --mail-user=diler@berkeley.edu"
+
+default_resources_24thread:
+  "--account=fc_flyminer \
+  --time=72:00:00 \
+  --ntasks-per-node=1 \
+  --job-name=cha \
+  --partition=savio3_htc \
+  --nodes=1 \
+  --cpus-per-task=24 \
+  --qos=savio_normal \
+  --mail-type=END,FAIL \
+  --mail-user=diler@berkeley.edu"
+
+default_resources_10thread:
+  "--account=fc_flyminer \
+  --time=72:00:00 \
+  --ntasks-per-node=1 \
+  --job-name=cha \
+  --partition=savio3_htc \
+  --nodes=1 \
+  --cpus-per-task=10 \
+  --qos=savio_normal \
+  --mail-type=END,FAIL \
   --mail-user=diler@berkeley.edu"
 
 gpu_resources:
-  "--account=fc_flyminer\
-  --time=72:00:00\
-  --ntasks-per-node=2\
-  --job-name=gpu\
-  --partition=savio3_gpu\
-  --nodes=1\
-  --cpus-per-task=4\
-  --qos=savio_lowprio\
-  --mail-type=END,FAIL\
-  --mail-user=diler@berkeley.edu\
+  "--account=fc_flyminer \
+  --time=72:00:00 \
+  --ntasks-per-node=2 \
+  --job-name=gpu \
+  --partition=savio3_gpu \
+  --nodes=1 \
+  --cpus-per-task=4 \
+  --qos=savio_lowprio \
+  --mail-type=END,FAIL \
+  --mail-user=diler@berkeley.edu \
   --gres=gpu:2"
 
 highmem_resources:
-  "--account=fc_flyminer\
-  --time=72:00:00\
-  --ntasks-per-node=1\
-  --job-name=himem\
-  --partition=savio3_bigmem\
-  --nodes=1\
-  --cpus-per-task=32\
-  --qos=savio_normal\
-  --mail-type=END,FAIL\
+  "--account=fc_flyminer \
+  --time=72:00:00 \
+  --ntasks-per-node=1 \
+  --job-name=himem \
+  --partition=savio3_bigmem \
+  --nodes=1 \
+  --cpus-per-task=32 \
+  --qos=savio_normal \
+  --mail-type=END,FAIL \
   --mail-user=diler@berkeley.edu"
 
 #############################################################################################################################################################################################################

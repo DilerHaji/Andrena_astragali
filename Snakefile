@@ -18,8 +18,9 @@ include: "rules/DNAseq/masurca.smk"
 
 ################################################################################################################
 
-include: "rules/RNAseq/trimming.smk"
-include: "rules/RNAseq/trinity.smk"
+#include: "rules/RNAseq/trimming.smk"
+#include: "rules/RNAseq/trinity.smk"
+include: "rules/RNAseq/error_correction.smk"
 
 ################################################################################################################
 
@@ -58,8 +59,14 @@ localrules:
 
 rule all_done: 
     input: 
-        genomescope=expand("{sample}_genomescope_results/summary.txt", sample=SAMPLE),
-       
+        genomescope=expand("{sample}_DNAseq/{sample}_genomescope_results/summary.txt", sample=SAMPLE),
+        
+        fastqc_ont=expand("qc/{sample}_ont_basecalled_fastqc.zip", sample=SAMPLE),
+
+        fastqc_dna_short=expand( "qc/{sample}_fastqc_DNAseq", sample=SAMPLE),
+             
+        fastqc_rna_short=expand("qc/{sample}_fastqc_RNAseq", sample=SAMPLE),
+                          
         basecalled=expand("{sample}_DNAont/{sample}_ont_basecalled.fastq", sample=SAMPLE),
        
     #	duplex_main_pairing=expand("{sample}_DNAont/{sample}_duplex_main_pairing.fastq", sample=SAMPLE),
@@ -92,13 +99,26 @@ rule all_done:
         
         busco_pilon3=expand("qc/{sample}_busco_pilon3", sample=SAMPLE),
         
-        busco_pilon4=expand("qc/{sample}_busco_pilon4", sample=SAMPLE),
+    #    busco_pilon4=expand("qc/{sample}_busco_pilon4", sample=SAMPLE),
         
     #   busco_jasper=expand("qc/{sample}_busco_jasper", sample=SAMPLE),
                 
         quast_quickmerge=expand("qc/{sample}_quast_quickmerge", sample=SAMPLE),
         
-        rnaseq_fastqc=expand("{sample}_RNAseq/trinity/Trinity.fasta", sample=SAMPLE)
+        
+        
+    # RNA SEQ
+    
+    #   rnaseq_fastqc=expand("{sample}_RNAseq/trinity/Trinity.fasta", sample=SAMPLE),
+        rnaseq_rcorrector=expand("{sample}_RNAseq/{sample}_R1.cor.fq", sample=SAMPLE),
+        RNAseq_FilterUncorrectabledPEfastq=expand("{sample}_RNAseq/unfixrm_{sample}_R1.cor.fq", sample=SAMPLE),
+
+
+
+
+
+
+
 
     output: 
         "all_done"

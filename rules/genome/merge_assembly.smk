@@ -33,6 +33,7 @@ rule quickmerge:
     output:
         "{sample}_quickmerge.fasta"
     params:
+        nucmer_threads=config["genome"]["quickmerge"]["nucmer"]["threads"],
         hco=config["genome"]["quickmerge"]["quickmerge"]["hco"],
         c=config["genome"]["quickmerge"]["quickmerge"]["c"],
         l=config["genome"]["quickmerge"]["quickmerge"]["l"],
@@ -42,7 +43,7 @@ rule quickmerge:
     conda:
         config["environments"]["quickmerge"]
     resources:
-        resources=config["default_resources"]
+        resources=config["default_resources_24thread"]
     benchmark:
         "benchmarks/{sample}_quickmerge"
     shell:
@@ -53,23 +54,24 @@ rule quickmerge:
         fi
         
         nucmer \
-    		-l {params.nucmer_l} \
-    		-prefix quickmerge/{wildcards.sample} \
-    		{input.short_assembly} {input.long_assembly}
-    	
-    	delta-filter -r -q \
-    		-l {params.delta_filter_l} \
-    		quickmerge/{wildcards.sample}.delta > quickmerge/{wildcards.sample}.rq.delta
-    	
-    	quickmerge \
-    		-d quickmerge/{wildcards.sample}.rq.delta \
-    		-q {input.long_assembly}/*fasta \
-    		-r {input.short_assembly} \
-    		-hco {params.hco} \
-    		-c {params.c} \
-    		-l {params.l} \
-    		-ml {params.ml} \
-    		-p quickmerge/{wildcards.sample}
+        -l {params.nucmer_l} \
+        -t {params.nucmer_threads} \
+        -p quickmerge/{wildcards.sample} \
+        {input.short_assembly} {input.long_assembly}
+        
+        delta-filter -r -q \
+        -l {params.delta_filter_l} \
+        quickmerge/{wildcards.sample}.delta > quickmerge/{wildcards.sample}.rq.delta
+        
+        quickmerge \
+        -d quickmerge/{wildcards.sample}.rq.delta \
+        -q {input.long_assembly}/*fasta \
+        -r {input.short_assembly} \
+        -hco {params.hco} \
+        -c {params.c} \
+        -l {params.l} \
+        -ml {params.ml} \
+        -p quickmerge/{wildcards.sample}
         
         mv quickmerge/{wildcards.sample}/merge.fasta {output}
 

@@ -1,7 +1,7 @@
 rule flye: 
     input: 
         reads="{sample}_DNAont/{sample}_ont_basecalled.fastq",
-        genome_size="{sample}_genomescope_results/summary.txt"
+        genome_size="{sample}_DNAseq/{sample}_genomescope_results/summary.txt"
     output: 
         "{sample}_DNAont/flye_assembly/assembly.fasta"
     params: 

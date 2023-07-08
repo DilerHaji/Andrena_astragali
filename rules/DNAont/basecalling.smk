@@ -30,9 +30,9 @@ rule convert_ont_to_pod5:
     shell: 
         """
         
-        pod5 convert fast5 {input}/*.fast5 {wildcards.sample}_ont --output-one-to-one {input}
+        pod5 convert fast5 {input}/*.fast5 {wildcards.sample}_DNAont --output-one-to-one {input}
         
-        ls -l {wildcards.sample}_ont > {output.pod5_done}        
+        ls -l {wildcards.sample}_DNAont > {output.pod5_done}        
 
         """
 
@@ -54,7 +54,7 @@ rule dorado_basecaller:
     shell: 
         """
         
-        {params.dorado} basecaller {input.model} {wildcards.sample}_ont --device 'cuda:all' --emit-fastq > {output}
+        {params.dorado} basecaller {input.model} {wildcards.sample}_DNAont --device 'cuda:all' --emit-fastq > {output}
 
         """
 

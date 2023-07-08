@@ -11,8 +11,8 @@ rule unpack_fastq_dnaseq:
     input: 
        DNASEQ_DATA
     output: 
-       forward_unpacked=os.path.join(DNASEQ_DATA, "{sample}_R1.fastq"),
-       reverse_unpacked=os.path.join(DNASEQ_DATA, "{sample}_R2.fastq")
+       forward_unpacked="{sample}_DNAseq/{sample}_R1.fastq",
+       reverse_unpacked="{sample}_DNAseq/{sample}_R2.fastq"
     shell:
        """
        gunzip -c {input}/*R1*gz > {output.forward_unpacked}
@@ -23,8 +23,8 @@ rule unpack_fastq_rnaseq:
     input: 
        RNASEQ_DATA
     output: 
-       forward_unpacked=os.path.join(RNASEQ_DATA, "{sample}_R1.fastq"),
-       reverse_unpacked=os.path.join(RNASEQ_DATA, "{sample}_R2.fastq")
+       forward_unpacked="{sample}_RNAseq/{sample}_R1.fastq",
+       reverse_unpacked="{sample}_RNAseq/{sample}_R2.fastq"
     shell:
        """
        gunzip -c {input}/*R1*gz > {output.forward_unpacked}

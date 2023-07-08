@@ -1,6 +1,6 @@
 rule busco:
     input:
-        "{sample}_ont/flye_assembly/assembly.fasta"
+        "{sample}_DNAont/flye_assembly/assembly.fasta"
     output:
         directory("qc/{sample}_busco")
     params:
@@ -25,7 +25,7 @@ rule busco:
 
 rule busco_masurca: 
     input: 
-        "{sample}_dnaseq/masurca/CA/final.genome.scf.fasta"
+        "{sample}_DNAseq/masurca/CA/final.genome.scf.fasta"
     output: 
         directory("qc/{sample}_busco_masurca")
     params:
@@ -49,7 +49,7 @@ rule busco_masurca:
 
 rule busco_masurca_hybrid: 
     input: 
-        "{sample}_dnaseq/masurca_hybrid/final.genome.scf.fasta"
+        "{sample}_DNAseq/masurca_hybrid/final.genome.scf.fasta"
     output: 
         directory("qc/{sample}_busco_masurca_hybrid")
     params:

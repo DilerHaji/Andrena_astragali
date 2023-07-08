@@ -1,6 +1,6 @@
 rule quast: 
     input: 
-        "{sample}_ont/flye_assembly/assembly.fasta"
+        "{sample}_DNAont/flye_assembly/assembly.fasta"
     output: 
         directory("qc/{sample}_quast")
     conda: 

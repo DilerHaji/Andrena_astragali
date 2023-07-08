@@ -1,6 +1,7 @@
 rule masurca:
     input:
-        DNASEQ_DATA
+       forward_unpacked="{sample}_DNAseq/{sample}_R1.fastq",
+       reverse_unpacked="{sample}_DNAseq/{sample}_R2.fastq"
     output:
         "{sample}_DNAseq/masurca/CA/final.genome.scf.fasta"
     params:
@@ -23,8 +24,8 @@ rule masurca:
         sed -i 's/PE_SIZE/{params.pe_size}/g' masurca_config.txt
         sed -i 's/PE_OVERLAP/{params.pe_overlap}/g' masurca_config.txt
 
-        path1=({input}/*R1*gz)
-        path2=({input}/*R2*gz)
+        path1=({input.forward_unpacked})
+        path2=({input.reverse_unpacked})
         
         sed -i "s|PE_PATH1|$path1|g" masurca_config.txt
         sed -i "s|PE_PATH2|$path2|g" masurca_config.txt
@@ -37,7 +38,8 @@ rule masurca:
 
 rule masurca_hybrid: 
     input:
-        dna_seq=DNASEQ_DATA, 
+        forward_unpacked="{sample}_DNAseq/{sample}_R1.fastq",
+        reverse_unpacked="{sample}_DNAseq/{sample}_R2.fastq",
         ont_basecalled="{sample}_DNAont/{sample}_ont_basecalled.fastq"
     output:
         "{sample}_DNAseq/masurca_hybrid/CA/final.genome.scf.fasta"
@@ -61,8 +63,8 @@ rule masurca_hybrid:
         sed -i 's/PE_SIZE/{params.pe_size}/g' masurca_config.txt
         sed -i 's/PE_OVERLAP/{params.pe_overlap}/g' masurca_config.txt
 
-        path1=({input.dna_seq}/*R1*gz)
-        path2=({input.dna_seq}/*R2*gz)
+        path1=({input.forward_unpacked})
+        path2=({input.reverse_unpacked})
         ont="NANOPORE=$(realpath ../../{input.ont_basecalled})"
 
         sed -i "s|PE_PATH1|$path1|g" masurca_config.txt

@@ -21,8 +21,8 @@ rule get_overlaps_racon:
              
 rule racon:
     input:
-        assembly_contigs="{sample}_ont/flye_assembly/assembly.fasta",
-        fastq="{sample}_ont/{sample}_ont_basecalled.fastq",
+        assembly_contigs="{sample}_DNAont/flye_assembly/assembly.fasta",
+        fastq="{sample}_DNAont/{sample}_ont_basecalled.fastq",
         sam="minimap/{sample}_ont_overlaps.sam"
     output:
         "polish/{sample}_racon.fasta"

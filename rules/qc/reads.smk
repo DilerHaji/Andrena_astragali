@@ -22,7 +22,7 @@ rule minionqc:
 
 rule fastqc_basecalled:
     input: 
-        "{sample}_ont/{sample}_ont_basecalled.fastq"
+        "{sample}_DNAont/{sample}_ont_basecalled.fastq"
     output: 
         "qc/{sample}_ont_basecalled_fastqc.zip"
     conda: 
@@ -35,30 +35,48 @@ rule fastqc_basecalled:
         """
         
         module load java
-        fastqc -t 150 -o qc {input}
+        fastqc -o qc {input}
 
         """
+
+rule fastqc_dna_short:
+    input: 
+        forward_unpacked="{sample}_DNAseq/{sample}_R1.fastq",
+        reverse_unpacked="{sample}_DNAseq/{sample}_R2.fastq"
+    output: 
+        directory("qc/{sample}_fastqc_DNAseq")
+    conda: 
+        config["environments"]["fastqc"]
+    resources:
+        resources=config["default_resources"]
+    benchmark:
+        "benchmarks/{sample}_fastqc_dna_short"
+    shell: 
+        """
+        
+        module load java
+        fastqc -o {output} {input}
+
+        """
+
 
 rule fastqc_rna_short:
     input: 
-        forward_unpacked=os.path.join(RNASEQ_DATA, "{sample}_R1.fastq"),
-        reverse_unpacked=os.path.join(RNASEQ_DATA, "{sample}_R2.fastq")
+        forward_unpacked="{sample}_RNAseq/{sample}_R1.fastq",
+        reverse_unpacked="{sample}_RNAseq/{sample}_R2.fastq"
     output: 
-        "qc/{sample}_ont_basecalled_fastqc.zip"
+        directory("qc/{sample}_fastqc_RNAseq")
     conda: 
         config["environments"]["fastqc"]
     resources:
         resources=config["default_resources"]
     benchmark:
-        "benchmarks/{sample}_fastqc_basecalled"
+        "benchmarks/{sample}_fastqc_rna_short"
     shell: 
         """
         
         module load java
-        fastqc -t 150 -o qc {input}
+        fastqc -o {output} {input}
 
         """
 
-
-
-	

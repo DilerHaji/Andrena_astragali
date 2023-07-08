@@ -1,4 +1,4 @@
-rule trimmomatic: 
+rule trim_galore: 
     input: 
     	RNASEQ_DATA
     output: 
@@ -9,20 +9,19 @@ rule trimmomatic:
     params:
     	threads= config["RNAseq"]["trimmomatic"]["threads"],
     	trim_params=config["RNAseq"]["trimmomatic"]["trim_params"]
+    conda:
+       config["environments"]["trim_galore"]
     benchmark: 
     	"benchmarks/RNAseq/{sample}_trimmomatic"
     shell: 
        """
        
-       trimmomatic PE \
-       -threads {threads} \
-       {input}*R1*fastq \
-       {input}*R2*fastq \
-       {output.forward_paired} \
-       {output.forward_unpaired} \
-       {output.reverse_paired} \
-       {output.reverse_unpaired} \
-       {params.trim_params}
-       
+       trim_galore --paired --retain_unpaired --phred33 \
+       --output_dir trimmed_reads \
+       --length 36 \
+       -q 5 \
+       --stringency 1 \
+       -e 0.1 $1 $2
+
        """
 	
