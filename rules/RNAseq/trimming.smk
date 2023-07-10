@@ -1,27 +1,20 @@
 rule trim_galore: 
     input: 
-    	RNASEQ_DATA
+    	forward_corrected="{sample}_RNAseq/unfixrm_{sample}_R1.cor.fq",
+    	reverse_corrected="{sample}_RNAseq/unfixrm_{sample}_R2.cor.fq"
     output: 
-    	forward_paired="{sample}_R1_P.fq.gz",
-    	forward_unpaired="{sample}_R1_UP.fq.gz",
-    	reverse_paired="{sample}_R2_P.fq.gz",
-    	reverse_unpaired="{sample}_R2_UP.fq.gz"
+        fasta_fwd="{sample}_RNAseq/{sample}_trimmed/{sample}_R1.fq.gz",
+        report_fwd="{sample}_RNAseq/{sample}_trimmed/reports/{sample}_R1_trimming_report.txt",
+        fasta_rev="{sample}_RNAseq/{sample}_trimmed/{sample}_R2.fq.gz",
+        report_rev="{sample}_RNAseq/{sample}_trimmed/reports/{sample}_R2_trimming_report.txt",
+    threads: 
+    	config["RNAont"]["trim_galore"]["threads"]
     params:
-    	threads= config["RNAseq"]["trimmomatic"]["threads"],
-    	trim_params=config["RNAseq"]["trimmomatic"]["trim_params"]
-    conda:
-       config["environments"]["trim_galore"]
+    	extra=config["RNAont"]["trim_galore"]["extra"],
     benchmark: 
-    	"benchmarks/RNAseq/{sample}_trimmomatic"
-    shell: 
-       """
-       
-       trim_galore --paired --retain_unpaired --phred33 \
-       --output_dir trimmed_reads \
-       --length 36 \
-       -q 5 \
-       --stringency 1 \
-       -e 0.1 $1 $2
-
-       """
+    	"benchmarks/RNAseq/{sample}_trim"
+    log:
+        "logs/RNAseq/{sample}_trim/{sample}.log"
+    wrapper:
+        "v2.2.0/bio/trim_galore/pe"
 	

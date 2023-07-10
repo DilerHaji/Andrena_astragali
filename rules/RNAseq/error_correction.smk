@@ -38,6 +38,6 @@ rule RNAseq_FilterUncorrectabledPEfastq:
     shell: 
        """
  
-       python FilterUncorrectabledPEfastq -1 {input.forward_corrected} -2 {input.reverse_corrected} -s {wildcards.sample}       
+       python {params.FilterUncorrectabledPEfastq} -1 {input.forward_corrected} -2 {input.reverse_corrected} -s {wildcards.sample}       
       
        """

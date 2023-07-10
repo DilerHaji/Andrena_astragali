@@ -18,7 +18,7 @@ rule quast:
 
 rule quast_quickmerge: 
     input: 
-         "{sample}_quickmerge.fasta"
+         "{sample}_genome/quickmerge/merged_{sample}.fasta"
     output: 
         directory("qc/{sample}_quast_quickmerge")
     conda: 

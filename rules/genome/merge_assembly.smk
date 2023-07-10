@@ -3,12 +3,12 @@
 
 rule find_best_pilon_jasper:
     input:
-        pilon="polish/{sample}_pilon.fasta",
-        jasper="polish/{sample}_jasper.fasta", 
+        pilon="{sample}_genome/polish/{sample}_pilon.fasta",
+        jasper="{sample}_genome/polish/{sample}_jasper.fasta", 
         pilon_busco="qc/{sample}_busco_pilon",
         jasper_busco="qc/{sample}_busco_jasper",
     output:
-        directory("polish/{sample}_best_pilon_jasper")
+        directory("{sample}_genome/polish/{sample}_best_pilon_jasper")
     benchmark:
         "benchmarks/{sample}_find_best_racon"
     shell:
@@ -27,11 +27,11 @@ rule find_best_pilon_jasper:
 
 rule quickmerge:
     input:
-        #long_assembly="polish/{sample}_best_pilon_jasper",
-        long_assembly="polish/{sample}_pilon4.fasta",
+        #long_assembly="{sample}_genome/polish/{sample}_best_pilon_jasper",
+        long_assembly="{sample}_genome/polish/{sample}_pilon4.fasta",
         short_assembly="{sample}_DNAseq/masurca/CA/final.genome.scf.fasta"
     output:
-        "{sample}_quickmerge.fasta"
+        "{sample}_genome/quickmerge/merged_{sample}.fasta"
     params:
         nucmer_threads=config["genome"]["quickmerge"]["nucmer"]["threads"],
         hco=config["genome"]["quickmerge"]["quickmerge"]["hco"],
@@ -49,31 +49,31 @@ rule quickmerge:
     shell:
         """
         
-        if [ ! -d quickmerge ]; then
-        	mkdir -p quickmerge;
+        if [ ! -d {wildcards.sample}_genome/quickmerge ]; then
+        	mkdir -p {wildcards.sample}_genome/quickmerge;
         fi
         
         nucmer \
         -l {params.nucmer_l} \
         -t {params.nucmer_threads} \
-        -p quickmerge/{wildcards.sample} \
+        -p {wildcards.sample}_genome/quickmerge/{wildcards.sample} \
         {input.short_assembly} {input.long_assembly}
         
         delta-filter -r -q \
         -l {params.delta_filter_l} \
-        quickmerge/{wildcards.sample}.delta > quickmerge/{wildcards.sample}.rq.delta
+        {wildcards.sample}_genome/quickmerge/{wildcards.sample}.delta > {wildcards.sample}_genome/quickmerge/{wildcards.sample}.rq.delta
         
+        cd {wildcards.sample}_genome/quickmerge
+          
         quickmerge \
-        -d quickmerge/{wildcards.sample}.rq.delta \
-        -q {input.long_assembly}/*fasta \
-        -r {input.short_assembly} \
+        -d {wildcards.sample}.rq.delta \
+        -q ../{input.long_assembly} \
+        -r ../{input.short_assembly} \
         -hco {params.hco} \
         -c {params.c} \
         -l {params.l} \
         -ml {params.ml} \
-        -p quickmerge/{wildcards.sample}
-        
-        mv quickmerge/{wildcards.sample}/merge.fasta {output}
+        -p {wildcards.sample}
 
         """
 

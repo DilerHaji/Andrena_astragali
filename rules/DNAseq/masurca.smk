@@ -3,7 +3,7 @@ rule masurca:
        forward_unpacked="{sample}_DNAseq/{sample}_R1.fastq",
        reverse_unpacked="{sample}_DNAseq/{sample}_R2.fastq"
     output:
-        "{sample}_DNAseq/masurca/CA/final.genome.scf.fasta"
+        "{sample}_DNAseq/{sample}_masurca/CA/final.genome.scf.fasta"
     params:
         configs=config["configs"]["masurca"],
         pe_size=500,
@@ -16,8 +16,12 @@ rule masurca:
         "benchmarks/{sample}_masurca"
     shell:
         """
-
-        cd {wildcards.sample}_DNAseq/masurca
+		
+		if [ ! -d {wildcards.sample}_DNAseq/{wildcards.sample}_masurca ]; then
+        	mkdir -p {wildcards.sample}_DNAseq/{wildcards.sample}_masurca;
+        fi
+		
+        cd {wildcards.sample}_DNAseq/{wildcards.sample}_masurca
 
         cp {params.configs} masurca_config.txt
 
@@ -56,7 +60,11 @@ rule masurca_hybrid:
     shell:
         """
 
-        cd {wildcards.sample}_DNAseq/masurca_hybrid
+		if [ ! -d {wildcards.sample}_DNAseq/{wildcards.sample}_masurca_hybrid ]; then
+        	mkdir -p {wildcards.sample}_DNAseq/{wildcards.sample}_masurca_hybrids;
+        fi
+
+        cd {wildcards.sample}_DNAseq/{wildcards.sample}_masurca_hybrid
 
         cp {params.configs} masurca_config.txt
 

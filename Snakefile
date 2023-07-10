@@ -18,7 +18,7 @@ include: "rules/DNAseq/masurca.smk"
 
 ################################################################################################################
 
-#include: "rules/RNAseq/trimming.smk"
+include: "rules/RNAseq/trimming.smk"
 #include: "rules/RNAseq/trinity.smk"
 include: "rules/RNAseq/error_correction.smk"
 
@@ -112,6 +112,7 @@ rule all_done:
     #   rnaseq_fastqc=expand("{sample}_RNAseq/trinity/Trinity.fasta", sample=SAMPLE),
         rnaseq_rcorrector=expand("{sample}_RNAseq/{sample}_R1.cor.fq", sample=SAMPLE),
         RNAseq_FilterUncorrectabledPEfastq=expand("{sample}_RNAseq/unfixrm_{sample}_R1.cor.fq", sample=SAMPLE),
+        rnaseq_trim=expand("{sample}_RNAseq/{sample}_trimmed/reports/{sample}_R1_trimming_report.txt", sample=SAMPLE),
 
 
 

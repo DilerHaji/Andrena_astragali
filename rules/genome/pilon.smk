@@ -3,7 +3,7 @@
 
 rule get_overlaps_pilon:
     input:
-        assembly="polish/{sample}_medaka.fasta",
+        assembly="{sample}_genome/polish/{sample}_medaka.fasta",
         short_fastq=DNASEQ_DATA,
     output:
         "minimap/{sample}_overlaps_for_pilon.bam"
@@ -24,7 +24,7 @@ rule get_overlaps_pilon:
 
 rule samtools_overlaps_pilon: 
     input:
-        "minimap/{sample}_overlaps_for_pilon.bam"
+        "{sample}_genome/minimap/{sample}_overlaps_for_pilon.bam"
     output:
         "minimap/{sample}_overlaps_for_pilon_sorted.bam"
     params:
@@ -62,12 +62,12 @@ rule samtools_overlaps_pilon_index:
 
 rule pilon:
     input:
-        assembly="polish/{sample}_medaka.fasta",
+        assembly="{sample}_genome/polish/{sample}_medaka.fasta",
         overlaps="minimap/{sample}_overlaps_for_pilon_sorted.bam",
         fai="minimap/{sample}_overlaps_for_pilon_sorted.bam.bai"
     output:
-        pilon_folder=directory("polish/{sample}_pilon"),
-        pilon="polish/{sample}_pilon.fasta"
+        pilon_folder=directory("{sample}_genome/polish/{sample}_pilon"),
+        pilon="{sample}_genome/polish/{sample}_pilon.fasta"
     params:
         threads=config["genome"]["pilon"]["threads"]
     conda:
@@ -93,7 +93,7 @@ rule pilon:
 
 rule get_overlaps_pilon2:
     input:
-        assembly="polish/{sample}_pilon.fasta",
+        assembly="{sample}_genome/polish/{sample}_pilon.fasta",
         short_fastq=DNASEQ_DATA,
     output:
         "minimap/{sample}_overlaps_for_pilon2.bam"
@@ -152,12 +152,12 @@ rule samtools_overlaps_pilon2_index:
 
 rule pilon2:
     input:
-        assembly="polish/{sample}_pilon.fasta",
+        assembly="{sample}_genome/polish/{sample}_pilon.fasta",
         overlaps="minimap/{sample}_overlaps_for_pilon2_sorted.bam",
         fai="minimap/{sample}_overlaps_for_pilon2_sorted.bam.bai"
     output:
-        pilon_folder=directory("polish/{sample}_pilon2"),
-        pilon="polish/{sample}_pilon2.fasta"
+        pilon_folder=directory("{sample}_genome/polish/{sample}_pilon2"),
+        pilon="{sample}_genome/polish/{sample}_pilon2.fasta"
     params:
         threads=config["genome"]["pilon"]["threads"]
     conda:
@@ -180,7 +180,7 @@ rule pilon2:
 
 rule get_overlaps_pilon3:
     input:
-        assembly="polish/{sample}_pilon2.fasta",
+        assembly="{sample}_genome/polish/{sample}_pilon2.fasta",
         short_fastq=DNASEQ_DATA,
     output:
         "minimap/{sample}_overlaps_for_pilon3.bam"
@@ -239,12 +239,12 @@ rule samtools_overlaps_pilon3_index:
 
 rule pilon3:
     input:
-        assembly="polish/{sample}_pilon2.fasta",
+        assembly="{sample}_genome/polish/{sample}_pilon2.fasta",
         overlaps="minimap/{sample}_overlaps_for_pilon3_sorted.bam",
         fai="minimap/{sample}_overlaps_for_pilon3_sorted.bam.bai"
     output:
-        pilon_folder=directory("polish/{sample}_pilon3"),
-        pilon="polish/{sample}_pilon3.fasta"
+        pilon_folder=directory("{sample}_genome/polish/{sample}_pilon3"),
+        pilon="{sample}_genome/polish/{sample}_pilon3.fasta"
     params:
         threads=config["genome"]["pilon"]["threads"]
     conda:
@@ -266,7 +266,7 @@ rule pilon3:
 
 rule get_overlaps_pilon4:
     input:
-        assembly="polish/{sample}_pilon3.fasta",
+        assembly="{sample}_genome/polish/{sample}_pilon3.fasta",
         short_fastq=DNASEQ_DATA,
     output:
         "minimap/{sample}_overlaps_for_pilon4.bam"
@@ -325,12 +325,12 @@ rule samtools_overlaps_pilon4_index:
 
 rule pilon4:
     input:
-        assembly="polish/{sample}_pilon3.fasta",
+        assembly="{sample}_genome/polish/{sample}_pilon3.fasta",
         overlaps="minimap/{sample}_overlaps_for_pilon4_sorted.bam",
         fai="minimap/{sample}_overlaps_for_pilon4_sorted.bam.bai"
     output:
-        pilon_folder=directory("polish/{sample}_pilon4"),
-        pilon="polish/{sample}_pilon4.fasta"
+        pilon_folder=directory("{sample}_genome/polish/{sample}_pilon4"),
+        pilon="{sample}_genome/polish/{sample}_pilon4.fasta"
     params:
         threads=config["genome"]["pilon"]["threads"]
     conda:

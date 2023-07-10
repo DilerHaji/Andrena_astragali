@@ -2,10 +2,10 @@
 
 rule jasper:
     input:
-        assembly="polish/{sample}_pilon.fasta",
+        assembly="{sample}_genome/polish/{sample}_pilon.fasta",
         short_fastq=DNASEQ_DATA
     output:
-        "polish/{sample}_jasper.fasta"
+        "{sample}_genome/polish/{sample}_jasper.fasta"
     params:
         threads=config["pilon"]["threads"],
         jasper=config["programs"]["jasper"],

@@ -15,4 +15,4 @@ conda config --set channel_priority strict
 conda activate snakemake
 
 snakemake --unlock
-snakemake --cluster "sbatch {resources.resources}" -j 7 --use-conda --rerun-incomplete --rerun-triggers mtime --use-singularity --singularity-args "--nv --disable-cache"
+snakemake --cluster "sbatch {resources.resources}" -j 1 --use-conda --rerun-incomplete --rerun-triggers mtime --use-singularity --singularity-args "--nv --disable-cache"

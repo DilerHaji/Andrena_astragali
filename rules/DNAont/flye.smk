@@ -17,7 +17,7 @@ rule flye:
         
         genome_size=$(python {params.get_genome_size} {input.genome_size})
 
-        echo $genome_size > {wildcards.sample}_genome_size.txt
+        echo $genome_size > {wildcards.sample}_DNAseq/{wildcards.sample}_genome_size.txt
 
         flye --nano-raw {input.reads} --out-dir {wildcards.sample}_ont/flye_assembly -g $genome_size --asm-coverage 40
 

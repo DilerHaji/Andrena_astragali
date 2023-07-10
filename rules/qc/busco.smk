@@ -25,7 +25,7 @@ rule busco:
 
 rule busco_masurca: 
     input: 
-        "{sample}_DNAseq/masurca/CA/final.genome.scf.fasta"
+        "{sample}_DNAseq/{sample}_masurca/CA/final.genome.scf.fasta"
     output: 
         directory("qc/{sample}_busco_masurca")
     params:
@@ -49,7 +49,7 @@ rule busco_masurca:
 
 rule busco_masurca_hybrid: 
     input: 
-        "{sample}_DNAseq/masurca_hybrid/final.genome.scf.fasta"
+        "{sample}_DNAseq/{sample}_masurca_hybrid/final.genome.scf.fasta"
     output: 
         directory("qc/{sample}_busco_masurca_hybrid")
     params:
@@ -74,7 +74,7 @@ rule busco_masurca_hybrid:
 
 rule busco_racon: 
     input: 
-        "polish/{sample}_racon.fasta"
+        "{sample}_genome/polish/{sample}_racon.fasta"
     output: 
         directory("qc/{sample}_busco_racon")
     params:
@@ -99,7 +99,7 @@ rule busco_racon:
 
 rule busco_racon2: 
     input: 
-        "polish/{sample}_racon2.fasta"
+        "{sample}_genome/polish/{sample}_racon2.fasta"
     output: 
         directory("qc/{sample}_busco_racon2")
     params:
@@ -124,7 +124,7 @@ rule busco_racon2:
 
 rule busco_medaka: 
     input: 
-        "polish/{sample}_medaka.fasta"
+        "{sample}_genome/polish/{sample}_medaka.fasta"
     output: 
         directory("qc/{sample}_busco_medaka")
     params:
@@ -149,7 +149,7 @@ rule busco_medaka:
 
 rule busco_pilon: 
     input: 
-        "polish/{sample}_pilon.fasta"
+        "{sample}_genome/polish/{sample}_pilon.fasta"
     output: 
         directory("qc/{sample}_busco_pilon")
     params:
@@ -172,7 +172,7 @@ rule busco_pilon:
 
 rule busco_pilon2: 
     input: 
-        "polish/{sample}_pilon2.fasta"
+        "{sample}_genome/polish/{sample}_pilon2.fasta"
     output: 
         directory("qc/{sample}_busco_pilon2")
     params:
@@ -195,7 +195,7 @@ rule busco_pilon2:
 
 rule busco_pilon3: 
     input: 
-        "polish/{sample}_pilon3.fasta"
+        "{sample}_genome/polish/{sample}_pilon3.fasta"
     output: 
         directory("qc/{sample}_busco_pilon3")
     params:
@@ -218,7 +218,7 @@ rule busco_pilon3:
 
 rule busco_pilon4: 
     input: 
-        "polish/{sample}_pilon4.fasta"
+        "{sample}_genome/polish/{sample}_pilon4.fasta"
     output: 
         directory("qc/{sample}_busco_pilon4")
     params:
@@ -243,7 +243,7 @@ rule busco_pilon4:
 
 rule busco_jasper: 
     input: 
-        "polish/{sample}_jasper.fasta"
+        "{sample}_genome/polish/{sample}_jasper.fasta"
     output: 
         directory("qc/{sample}_busco_jasper")
     params:

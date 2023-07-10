@@ -3,7 +3,7 @@ rule get_overlaps_racon:
         assembly_contigs="{sample}_DNAont/flye_assembly/assembly.fasta",
         fastq="{sample}_DNAont/{sample}_ont_basecalled.fastq"
     output:
-        "minimap/{sample}_ont_overlaps.sam"
+        "{sample}_genome/minimap/{sample}_ont_overlaps.sam"
     params:
         threads=config["DNAont"]["minimap"]["threads"]
     conda:
@@ -23,9 +23,9 @@ rule racon:
     input:
         assembly_contigs="{sample}_DNAont/flye_assembly/assembly.fasta",
         fastq="{sample}_DNAont/{sample}_ont_basecalled.fastq",
-        sam="minimap/{sample}_ont_overlaps.sam"
+        sam="{sample}_genome/minimap/{sample}_ont_overlaps.sam"
     output:
-        "polish/{sample}_racon.fasta"
+        "{sample}_genome/polish/{sample}_racon.fasta"
     params:
         threads=config["DNAont"]["racon"]["threads"],
         match=config["DNAont"]["racon"]["match"],
@@ -50,10 +50,10 @@ rule racon:
 
 rule get_overlaps_racon2:
     input:
-        assembly_contigs="polish/{sample}_racon.fasta",
+        assembly_contigs="{sample}_genome/polish/{sample}_racon.fasta",
         fastq="{sample}_DNAont/{sample}_ont_basecalled.fastq"
     output:
-        "minimap/{sample}_ont_overlaps2.sam"
+        "{sample}_genome/minimap/{sample}_ont_overlaps2.sam"
     params:
         threads=config["DNAont"]["minimap"]["threads"]
     conda:
@@ -71,11 +71,11 @@ rule get_overlaps_racon2:
 
 rule racon2:
     input:
-        assembly_contigs="polish/{sample}_racon.fasta",
+        assembly_contigs="{sample}_genome/polish/{sample}_racon.fasta",
         fastq="{sample}_DNAont/{sample}_ont_basecalled.fastq",
-        sam="minimap/{sample}_ont_overlaps2.sam"
+        sam="{sample}_genome/minimap/{sample}_ont_overlaps2.sam"
     output:
-        "polish/{sample}_racon2.fasta"
+        "{sample}_genome/polish/{sample}_racon2.fasta"
     params:
         threads=config["DNAont"]["racon"]["threads"],
         match=config["DNAont"]["racon"]["match"],
@@ -100,12 +100,12 @@ rule racon2:
 
 rule find_best_racon:
     input:
-        racon2="polish/{sample}_racon2.fasta",
-        racon1="polish/{sample}_racon.fasta", 
+        racon2="{sample}_genome/polish/{sample}_racon2.fasta",
+        racon1="{sample}_genome/polish/{sample}_racon.fasta", 
         racon2_busco="qc/{sample}_busco_racon2",
         racon1_busco="qc/{sample}_busco_racon"
     output:
-        "polish/{sample}_best_racon"
+        "{sample}_genome/polish/{sample}_best_racon"
     benchmark:
         "benchmarks/{sample}_find_best_racon"
     shell:
