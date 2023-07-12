@@ -6,12 +6,16 @@ path_to_data: "/global/scratch/users/diler/data/chat_bee/"
 ############################################################################################################################################################################################################
 
 genome:
+  
   minimap:
     threads: 20
+  
   samtools:
     threads: 20  
+  
   pilon:
     threads: 20
+  
   quickmerge:
     nucmer:
       l: 100
@@ -27,9 +31,12 @@ genome:
 #############################################################################################################################################################################################################
 
 DNAont:
+  
   nanopore_basecalling_model: "dna_r9.4.1_e8_hac@v3.3"
+  
   minimap:
     threads: 20
+  
   racon:
     threads: 20
     match: 5
@@ -37,33 +44,47 @@ DNAont:
     gap: -8
     window_length: 500
     extra: ""
+  
   medaka:
     threads: 20
     model: "r941_min_hac_g507"
+  
   samtools:
     threads: 20
 
 #############################################################################################################################################################################################################
 
 RNAont:
-  trim_galore:
-    threads: 1
-    extra: "--illumina -q 20"
 
 #############################################################################################################################################################################################################
 
 RNAseq:
+  
   rcorrector: 
     threads: 10
-  trimmomatic:
-    threads: 1
-    trim_params: "ILLUMINACLIP:TruSeq3-PE.fa:2:30:10LEADING:3TRAILING:3SLIDINGWINDOW:4:15MINLEN:36"
-  trinity:
-        memory1: "200G"
-        memory2: 10
+  
+  trim_galore:
+    threads: 15
+    extra: "--retain_unpaired --phred33 --length 36 -q 5 --stringency 1 -e 0.1 --cores 4"
+  
+  filtering: 
+    SSrRNA_database: "https://ftp.arb-silva.de/release_138_1/Exports/SILVA_138.1_SSUParc_tax_silva.fasta.gz"
+    LSrRNA_database: "https://ftp.arb-silva.de/release_138_1/Exports/SILVA_138.1_LSUParc_tax_silva.fasta.gz"
+    bowtie2_build: 
+        extra: "--large-index"
+        threads: 8
+    bowtie2: 
+        extra: "--quiet --very-sensitive-local --phred33"
         threads: 24
-        trinity_params: "--seqType fq"
-        strand: ""
+        
+  trinity:
+        extra: "--max_memory 384G --CPU 32"
+        threads: 32
+#         memory1: "200G"
+#         memory2: 10
+#         threads: 24
+#         trinity_params: "--seqType fq"
+#         strand: ""
 
 #############################################################################################################################################################################################################
 
@@ -118,6 +139,7 @@ environments:
   rcorrector: "/global/scratch/users/diler/environments/rcorrector.yml"
   python2.7.8: "/global/scratch/users/diler/environments/python2.7.8.yml"
   trim_galore: "/global/scratch/users/diler/environments/trim_galore.yml"
+  bowtie2: "/global/scratch/users/diler/environments/bowtie2.yml"
 
 #############################################################################################################################################################################################################
 
@@ -145,6 +167,18 @@ default_resources_24thread:
   --mail-type=END,FAIL \
   --mail-user=diler@berkeley.edu"
 
+default_resources_15thread:
+  "--account=fc_flyminer \
+  --time=72:00:00 \
+  --ntasks-per-node=1 \
+  --job-name=cha \
+  --partition=savio3_htc \
+  --nodes=1 \
+  --cpus-per-task=15 \
+  --qos=savio_normal \
+  --mail-type=END,FAIL \
+  --mail-user=diler@berkeley.edu"
+  
 default_resources_10thread:
   "--account=fc_flyminer \
   --time=72:00:00 \
@@ -157,6 +191,18 @@ default_resources_10thread:
   --mail-type=END,FAIL \
   --mail-user=diler@berkeley.edu"
 
+default_resources_8thread:
+  "--account=fc_flyminer \
+  --time=72:00:00 \
+  --ntasks-per-node=1 \
+  --job-name=cha \
+  --partition=savio3_htc \
+  --nodes=1 \
+  --cpus-per-task=8 \
+  --qos=savio_normal \
+  --mail-type=END,FAIL \
+  --mail-user=diler@berkeley.edu"
+  
 gpu_resources:
   "--account=fc_flyminer \
   --time=72:00:00 \
@@ -174,13 +220,14 @@ highmem_resources:
   "--account=fc_flyminer \
   --time=72:00:00 \
   --ntasks-per-node=1 \
-  --job-name=himem \
+  --job-name=cha \
   --partition=savio3_bigmem \
   --nodes=1 \
-  --cpus-per-task=32 \
+  --cpus-per-task=20 \
   --qos=savio_normal \
   --mail-type=END,FAIL \
   --mail-user=diler@berkeley.edu"
+
 
 #############################################################################################################################################################################################################
 

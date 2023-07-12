@@ -21,6 +21,7 @@ include: "rules/DNAseq/masurca.smk"
 include: "rules/RNAseq/trimming.smk"
 #include: "rules/RNAseq/trinity.smk"
 include: "rules/RNAseq/error_correction.smk"
+include: "rules/RNAseq/filtering.smk"
 
 ################################################################################################################
 
@@ -55,7 +56,8 @@ localrules:
     samtools_overlaps_pilon3_index, 
     samtools_overlaps_pilon4_index,
     find_best_racon,
-    find_best_pilon_jasper
+    find_best_pilon_jasper,
+    cleanup_rRNA
 
 rule all_done: 
     input: 
@@ -113,10 +115,7 @@ rule all_done:
         rnaseq_rcorrector=expand("{sample}_RNAseq/{sample}_R1.cor.fq", sample=SAMPLE),
         RNAseq_FilterUncorrectabledPEfastq=expand("{sample}_RNAseq/unfixrm_{sample}_R1.cor.fq", sample=SAMPLE),
         rnaseq_trim=expand("{sample}_RNAseq/{sample}_trimmed/reports/{sample}_R1_trimming_report.txt", sample=SAMPLE),
-
-
-
-
+        fastqc_rna_short_filtered=expand("qc/{sample}_fastqc_RNAseq_rRNA_filter", sample=SAMPLE),
 
 
 

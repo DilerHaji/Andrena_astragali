@@ -8,9 +8,11 @@ rule trim_galore:
         fasta_rev="{sample}_RNAseq/{sample}_trimmed/{sample}_R2.fq.gz",
         report_rev="{sample}_RNAseq/{sample}_trimmed/reports/{sample}_R2_trimming_report.txt",
     threads: 
-    	config["RNAont"]["trim_galore"]["threads"]
+    	config["RNAseq"]["trim_galore"]["threads"]
+    resources:
+        resources=config["default_resources_15thread"]
     params:
-    	extra=config["RNAont"]["trim_galore"]["extra"],
+    	extra=config["RNAseq"]["trim_galore"]["extra"],
     benchmark: 
     	"benchmarks/RNAseq/{sample}_trim"
     log:
