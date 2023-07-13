@@ -22,6 +22,8 @@ include: "rules/RNAseq/trimming.smk"
 #include: "rules/RNAseq/trinity.smk"
 include: "rules/RNAseq/error_correction.smk"
 include: "rules/RNAseq/filtering.smk"
+include: "rules/RNAseq/rRNA_database.smk"
+
 
 ################################################################################################################
 
@@ -38,13 +40,16 @@ include: "rules/genome/merge_assembly.smk"
 
 ################################################################################################################
 
-include: "rules/ncbi/ncbi_datasets.smk"
+include: "rules/phylogeny/get_genomes.smk"
+
+################################################################################################################
+
+#include: "rules/ncbi/ncbi_datasets.smk"
 
 
 rule all:
     input:
-        "all_done",
-        "ncbi_dataset/data/"
+        "all_done"
 
 localrules: 
     all, 
@@ -115,9 +120,11 @@ rule all_done:
         rnaseq_rcorrector=expand("{sample}_RNAseq/{sample}_R1.cor.fq", sample=SAMPLE),
         RNAseq_FilterUncorrectabledPEfastq=expand("{sample}_RNAseq/unfixrm_{sample}_R1.cor.fq", sample=SAMPLE),
         rnaseq_trim=expand("{sample}_RNAseq/{sample}_trimmed/reports/{sample}_R1_trimming_report.txt", sample=SAMPLE),
-        fastqc_rna_short_filtered=expand("qc/{sample}_fastqc_RNAseq_rRNA_filter", sample=SAMPLE),
+        fastqc_rna_short_filtered1=expand("qc/{sample}_fastqc_RNAseq_rRNA_filter1", sample=SAMPLE),
+        fastqc_rna_short_filtered2=expand("qc/{sample}_fastqc_RNAseq_rRNA_filter2", sample=SAMPLE),
 
 
+        ncbi1=expand("{sample}_phylogeny", sample=SAMPLE)
 
 
     output: 

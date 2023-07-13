@@ -1,7 +1,7 @@
 rule trinity: 
     input:
-        left=["reads/reads.left.fq.gz", "reads/reads2.left.fq.gz"],
-        right=["reads/reads.right.fq.gz", "reads/reads2.right.fq.gz"],
+        left="{sample}_RNAseq/{sample}_filtering/{sample}_rRNA_unconcordant.fq.gz",
+        right="{sample}_RNAseq/{sample}_filtering/{sample}_rRNA_unconcordant.fq.gz",
     output:
         dir=temp(directory("trinity_out_dir/")),
         fas="trinity_out_dir.Trinity.fasta",

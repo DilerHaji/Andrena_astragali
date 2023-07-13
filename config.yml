@@ -28,6 +28,17 @@ genome:
       l: 6000000
       ml: 10000
 
+  liftoff: 
+    reference_genome: "CHATSEQ, GCF_001272555.1" #using Dufourea novaeangliae
+
+
+#############################################################################################################################################################################################################
+
+phylogeny: 
+
+    genomes_to_get: "/global/scratch/users/diler/nav/chat_bee_assembly/phylogeny.tsv" 
+
+
 #############################################################################################################################################################################################################
 
 DNAont:
@@ -72,7 +83,7 @@ RNAseq:
     LSrRNA_database: "https://ftp.arb-silva.de/release_138_1/Exports/SILVA_138.1_LSUParc_tax_silva.fasta.gz"
     bowtie2_build: 
         extra: "--large-index"
-        threads: 8
+        threads: 32
     bowtie2: 
         extra: "--quiet --very-sensitive-local --phred33"
         threads: 24
@@ -108,6 +119,7 @@ scripts:
   minionqc: "/global/scratch/users/diler/scripts/MinIONQC.R"
   get_genome_size: "/global/scratch/users/diler/scripts/get_genome_size.py"
   FilterUncorrectabledPEfastq: "/global/scratch/users/diler/scripts/FilterUncorrectabledPEfastq.py"
+  bowtie2_wrapper: "/global/scratch/users/diler/scripts/bowtie2_snakemake.py"
 
 programs:
   dorado: "/global/scratch/users/diler/software/dorado-0.1.1+eb48766-Linux/bin/dorado"
@@ -118,6 +130,7 @@ configs:
   masurca: "/global/scratch/users/diler/configs/masurca.txt"
 
 environments:
+  seqkit: "/global/scratch/users/diler/environments/seqkit.yml"
   jellyfish: "/global/scratch/users/diler/environments/jellyfish.yml"
   dorado: "/global/scratch/users/diler/environments/dorado.yml"
   samtools: "/global/scratch/users/diler/environments/samtools.yml"
@@ -223,7 +236,7 @@ highmem_resources:
   --job-name=cha \
   --partition=savio3_bigmem \
   --nodes=1 \
-  --cpus-per-task=20 \
+  --cpus-per-task=32 \
   --qos=savio_normal \
   --mail-type=END,FAIL \
   --mail-user=diler@berkeley.edu"

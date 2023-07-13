@@ -80,11 +80,30 @@ rule fastqc_rna_short:
 
         """
 
-rule fastqc_rna_short_filtered:
+rule fastqc_rna_short_filtered1:
     input: 
-        "{sample}_RNAseq/{sample}_filtering/{sample}_rRNA_unconcordant.fq.gz"
+        "{sample}_RNAseq/{sample}_filtering/{sample}_rRNA_unconcordant.fq.1.gz"
     output: 
-        directory("qc/{sample}_fastqc_RNAseq_rRNA_filter")
+        directory("qc/{sample}_fastqc_RNAseq_rRNA_filter1/")
+    conda: 
+        config["environments"]["fastqc"]
+    resources:
+        resources=config["default_resources"]
+    benchmark:
+        "benchmarks/{sample}_fastqc_RNAseq_rRNA_filter"
+    shell: 
+        """
+        
+        module load java
+        fastqc -o {output} {input}
+
+        """
+
+rule fastqc_rna_short_filtered2:
+    input: 
+        "{sample}_RNAseq/{sample}_filtering/{sample}_rRNA_unconcordant.fq.2.gz"
+    output: 
+        directory("qc/{sample}_fastqc_RNAseq_rRNA_filter2/")
     conda: 
         config["environments"]["fastqc"]
     resources:
